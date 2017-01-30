@@ -1,6 +1,8 @@
-//initialize function called when the script loads
+//initialize functions called when the script loads
 function initialize(){
     cities();
+    loadMegaCities()
+    debugAjax()
 };
 
 //function to create a table with cities and their populations
@@ -112,6 +114,34 @@ function addEvents(){
     };
 
     $('table').on('click', clickme);
+};
+
+//load the MegaCities geojson file
+function loadMegaCities(){
+	//Get the geojson file and display in console
+    $.get("data/MegaCities.geojson",function(data){
+    	var myData = data;
+    	console.log(myData);
+    });
+    //Incorrectly call data outside the callback function
+    //console.log(myData);
+}
+
+//MODULE 3 ASSIGNMENT
+//Add the contents of the geojson to the div
+function debugCallback(response){
+	$(mydiv).append('<br>GeoJSON data:<br>' + JSON.stringify(response));
+};
+
+//Use AJAX call to load Megacities geojson
+function debugAjax(){
+	$.ajax("data/MegaCities.geojson", {
+		dataType: "json",
+		success: function(response){
+			//Call the callback function
+			debugCallback(response);
+		}
+	});	
 };
 
 //call the initialize function when the document has loaded
